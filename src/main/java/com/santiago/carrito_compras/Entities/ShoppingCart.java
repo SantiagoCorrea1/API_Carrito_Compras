@@ -11,17 +11,22 @@ import java.util.List;
 public class ShoppingCart {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private long id;
 
+    @ManyToMany
+    @JoinTable(
+            name = "shopping_cart_product",
+            joinColumns = @JoinColumn(name = "shopping_cart_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
     @Getter
     @Setter
-    @ManyToMany(mappedBy = "shoppingCarts")
     private List<Product> products;
 
-    @JoinColumn(name = "user_id")
-    @OneToOne(fetch = FetchType.LAZY)
+
+    @OneToOne(mappedBy = "shoppingCart")
     @Getter
     @Setter
     private User user;

@@ -1,5 +1,6 @@
 package com.santiago.carrito_compras.Entities;
 
+import com.santiago.carrito_compras.Dto.UserDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -8,13 +9,18 @@ import lombok.Setter;
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private long id;
 
     @Getter
     @Setter
     private String name;
+
+    @Getter
+    @Setter
+    private String email;
+
     @Getter
     @Setter
     private String password;
@@ -27,17 +33,30 @@ public class User {
 
     @Getter
     @Setter
-    @OneToOne(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.LAZY)
+    @OneToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "shoppingCart_id", referencedColumnName = "id")
     private ShoppingCart shoppingCart;
 
 
-    public User(String name, String password, Rol rol, ShoppingCart shoppingCart) {
+    public User(String name, String email, String password, Rol rol, ShoppingCart shoppingCart) {
         this.name = name;
+        this.email = email;
         this.password = password;
         this.rol = rol;
         this.shoppingCart = shoppingCart;
     }
 
     public User() {
+    }
+
+    public UserDto getDto(){
+        UserDto userDto = new UserDto();
+        userDto.setId(id);
+        userDto.setName(name);
+        userDto.setEmail(email);
+        userDto.setPassword(password);
+        userDto.setRol(rol);
+        userDto.setShoppingCart(shoppingCart);
+        return userDto;
     }
 }

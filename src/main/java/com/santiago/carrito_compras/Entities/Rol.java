@@ -9,7 +9,7 @@ import java.util.List;
 @Entity
 public class Rol {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private long id;
 

@@ -22,8 +22,13 @@ public class ProductService implements ProductInterface {
     }
 
     @Override
-    public Product updateProductById(Product product) {
-        if (repository.existsById(product.getId())){
+    public Product updateProductById(Product productUpdated, long id) {
+        if (repository.existsById(id)){
+            Product product = repository.findById(id).orElse(null);
+            product.setDescription(productUpdated.getDescription());
+            product.setImg(productUpdated.getImg());
+            product.setPrice(productUpdated.getPrice());
+            product.setDescription(product.getDescription());
             return repository.save(product);
         }
         return null;
@@ -37,5 +42,10 @@ public class ProductService implements ProductInterface {
     @Override
     public List<Product> searchAllProducts() {
         return repository.findAll();
+    }
+
+    @Override
+    public Product findProductById(Product product) {
+        return repository.findById(product.getId()).orElse(null);
     }
 }

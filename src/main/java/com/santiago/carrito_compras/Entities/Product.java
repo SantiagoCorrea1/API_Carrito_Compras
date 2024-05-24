@@ -10,7 +10,7 @@ import java.util.List;
 @Entity
 public class Product {
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
     private long id;
 
@@ -30,27 +30,29 @@ public class Product {
     @Setter
     private String img;
 
-    @ManyToMany(cascade = {
-            CascadeType.PERSIST,
-            CascadeType.MERGE
-    })
-    @JoinTable(
-            name = "product_shoppingCarts",
-            joinColumns = {@JoinColumn(name = "product_id")},
-            inverseJoinColumns = {@JoinColumn(name = "shoppingCart_id")}
-    )
-    @Setter
     @Getter
+    @Setter
+    private int availableAmount;
+
+    @Getter
+    @Setter
+    private boolean available;
+
+    @ManyToMany(mappedBy = "products")
+    @Getter
+    @Setter
     private List<ShoppingCart> shoppingCarts;
 
 
     public Product() {
     }
 
-    public Product(double price, String name, String description, String img) {
+    public Product(double price, String name, String description, String img, int availableAmount, boolean available) {
         this.price = price;
         this.name = name;
         this.description = description;
         this.img = img;
+        this.availableAmount = availableAmount;
+        this.available = available;
     }
 }
