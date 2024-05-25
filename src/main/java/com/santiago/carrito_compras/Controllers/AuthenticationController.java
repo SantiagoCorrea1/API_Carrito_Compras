@@ -73,7 +73,8 @@ public class AuthenticationController {
 
         response.getWriter().write(new JSONObject()
                 .put("userId", user.getId())
-                .put("rol", user.getRol())
+                //.put("rol", user.getRol())
+                .put("token", jwt)
                 .toString()
         );
         response.addHeader("Access-Control-Expose-Headers", "Authorization");
