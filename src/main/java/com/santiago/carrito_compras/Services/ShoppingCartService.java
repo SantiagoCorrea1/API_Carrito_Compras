@@ -6,7 +6,7 @@ import com.santiago.carrito_compras.Interfaces.ShoppingCartInterface;
 import com.santiago.carrito_compras.Repositories.ShoppingCartRepository;
 import org.springframework.stereotype.Service;
 
-import java.util.List;
+import java.util.Set;
 
 @Service
 public class ShoppingCartService implements ShoppingCartInterface {
@@ -37,24 +37,26 @@ public class ShoppingCartService implements ShoppingCartInterface {
 
     @Override
     public ShoppingCart addProduct(ShoppingCart shoppingCart, Product product) {
-        if (shoppingCart == null || product == null) {
-            throw new IllegalArgumentException("ShoppingCart and Product cannot be null");
-        }
-        List<Product> products = shoppingCart.getProducts();
-        products.add(product);
-        shoppingCart.setProducts(products);
-        return repository.save(shoppingCart);
+//        if (shoppingCart == null || product == null) {
+//            throw new IllegalArgumentException("ShoppingCart and Product cannot be null");
+//        }
+//        Set<Product> products = shoppingCart.getProducts();
+//        products.add(product);
+//        shoppingCart.setProducts(products);
+//        return repository.save(shoppingCart);
+        return null;
     }
 
     @Override
     public ShoppingCart deleProduct(ShoppingCart shoppingCart, Product product) {
-        if (shoppingCart == null || product == null) {
-            throw new IllegalArgumentException("ShoppingCart and Product cannot be null");
-        }
-        List<Product> products = shoppingCart.getProducts();
-        products.remove(product);
-        shoppingCart.setProducts(products);
-        return repository.save(shoppingCart);
+//        if (shoppingCart == null || product == null) {
+//            throw new IllegalArgumentException("ShoppingCart and Product cannot be null");
+//        }
+//        Set<Product> products = shoppingCart.getProducts();
+//        products.remove(product);
+//        shoppingCart.setProducts(products);
+//        return repository.save(shoppingCart);
+        return null;
     }
 
 

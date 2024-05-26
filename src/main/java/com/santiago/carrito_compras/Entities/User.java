@@ -5,12 +5,16 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
+import java.util.Set;
+
+
 @Entity
 public class User {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
     @Getter
+    @Setter
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private long id;
 
     @Getter
@@ -33,17 +37,17 @@ public class User {
 
     @Getter
     @Setter
-    @OneToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "shoppingCart_id", referencedColumnName = "id")
-    private ShoppingCart shoppingCart;
-
-
+    @ManyToMany
+    @JoinTable(
+            name = "user_cart",
+            joinColumns = @JoinColumn(name = "user_id"),
+            inverseJoinColumns = @JoinColumn(name = "shoppingCart_id"))
+    private Set<ShoppingCart> carts;
     public User(String name, String email, String password, Rol rol, ShoppingCart shoppingCart) {
         this.name = name;
         this.email = email;
         this.password = password;
         this.rol = rol;
-        this.shoppingCart = shoppingCart;
     }
 
     public User() {
@@ -56,7 +60,6 @@ public class User {
         userDto.setEmail(email);
         userDto.setPassword(password);
         userDto.setRol(rol);
-        userDto.setShoppingCart(shoppingCart);
         return userDto;
     }
 }

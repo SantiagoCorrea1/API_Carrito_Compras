@@ -1,8 +1,10 @@
 package com.santiago.carrito_compras.Services;
 
+import com.santiago.carrito_compras.Dto.ProductDao;
 import com.santiago.carrito_compras.Entities.Product;
 import com.santiago.carrito_compras.Interfaces.ProductInterface;
 import com.santiago.carrito_compras.Repositories.ProductRepository;
+import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -17,21 +19,32 @@ public class ProductService implements ProductInterface {
     }
 
     @Override
-    public Product createProduct(Product product) {
-        return repository.save(product);
+    public Product createProduct(ProductDao dao) {
+        Product productNew = new Product();
+        productNew.setName(dao.getName());
+        productNew.setDescription(dao.getDescription());
+        productNew.setImg(dao.getImg());
+        productNew.setAvailable(dao.isAvailable());
+        productNew.setPrice(dao.getPrice());
+        productNew.setAvailableAmount(dao.getAvailableAmount());
+        return repository.save(productNew);
     }
 
     @Override
-    public Product updateProductById(Product productUpdated, long id) {
+    public Product updateProductById(ProductDao dao, long id) {
         if (repository.existsById(id)){
-            Product product = repository.findById(id).orElse(null);
-            product.setDescription(productUpdated.getDescription());
-            product.setImg(productUpdated.getImg());
-            product.setPrice(productUpdated.getPrice());
-            product.setDescription(product.getDescription());
+            Product product = repository.findById(id)
+                    .orElseThrow(() -> new  ObjectNotFoundException("product not found", id));
+            product.setDescription(dao.getDescription());
+            product.setImg(dao.getImg());
+            product.setPrice(dao.getPrice());
+            product.setDescription(dao.getDescription());
+            product.setAvailableAmount(dao.getAvailableAmount());
+            product.setAvailable(dao.isAvailable());
             return repository.save(product);
+        } else {
+            throw new ObjectNotFoundException("product not found", id);
         }
-        return null;
     }
 
     @Override
@@ -45,7 +58,7 @@ public class ProductService implements ProductInterface {
     }
 
     @Override
-    public Product findProductById(Product product) {
-        return repository.findById(product.getId()).orElse(null);
+    public Product findProductById(long id) {
+        return repository.findById(id).orElse(null);
     }
 }

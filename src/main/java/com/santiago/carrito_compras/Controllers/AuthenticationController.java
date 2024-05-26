@@ -10,7 +10,6 @@ import com.santiago.carrito_compras.Services.AuthService;
 import com.santiago.carrito_compras.Services.UserDetailsServiceImpl;
 import com.santiago.carrito_compras.Util.JwtUtil;
 import jakarta.servlet.http.HttpServletResponse;
-import netscape.javascript.JSObject;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.springframework.http.HttpStatus;
@@ -32,7 +31,7 @@ public class AuthenticationController {
     final
     AuthenticationManager authenticationManager;
     private static final String TOKEN_PREFIX = "Bearer ";
-    private static final String HEADER_STRING = "Authorization ";
+    private static final String HEADER_STRING = "Authorization";
     private final UserDetailsServiceImpl userDetailsService;
     private final JwtUtil jwtUtil;
     private final UserRepository userRepository;
@@ -67,12 +66,13 @@ public class AuthenticationController {
         }
 
         final UserDetails userDetails = userDetailsService.loadUserByUsername(authenticationRequest.getName());
-        final String jwt = jwtUtil.generateToken(userDetails.getUsername());
-
         User user = userRepository.findFirstByEmail(userDetails.getUsername());
 
+        final String jwt = jwtUtil.generateToken(userDetails.getUsername(), user.getId());
+
+
         response.getWriter().write(new JSONObject()
-                .put("userId", user.getId())
+                //.put("userId", user.getId())
                 //.put("rol", user.getRol())
                 .put("token", jwt)
                 .toString()

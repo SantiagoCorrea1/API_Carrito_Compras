@@ -12,7 +12,4 @@ public class UserDto {
     private String email;
     private String password;
     private Rol rol;
-    private ShoppingCart shoppingCart;
-
-
 }

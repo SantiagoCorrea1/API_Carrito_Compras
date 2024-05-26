@@ -19,11 +19,9 @@ public class AuthService implements AuthInterface {
     private final UserRepository userRepository;
 
     private final RolRepository rolRepository;
-    private final ShoppingCartRepository shoppingCartRepository;
-    public AuthService(UserRepository userRepository, RolRepository rolRepository, ShoppingCartRepository shoppingCartRepository, PasswordEncoder passwordEncoder) {
+    public AuthService(UserRepository userRepository, RolRepository rolRepository, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.rolRepository = rolRepository;
-        this.shoppingCartRepository = shoppingCartRepository;
         this.passwordEncoder = passwordEncoder;
     }
 
@@ -34,15 +32,11 @@ public class AuthService implements AuthInterface {
                 .orElseThrow(() -> new RuntimeException("Rol not found"));
         String encodedPassword = passwordEncoder.encode(singUpRequestDto.getPassword());
 
-        ShoppingCart shoppingCart = new ShoppingCart();
-        shoppingCartRepository.save(shoppingCart);
-
         User user = new User();
         user.setName(singUpRequestDto.getName());
         user.setEmail(singUpRequestDto.getEmail());
         user.setPassword(encodedPassword);
         user.setRol(rol);
-        user.setShoppingCart(shoppingCart);
 
         return userRepository.save(user).getDto();
     }

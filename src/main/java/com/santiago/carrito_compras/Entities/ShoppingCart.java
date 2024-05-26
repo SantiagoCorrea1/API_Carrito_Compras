@@ -4,10 +4,9 @@ import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
 
-import java.util.List;
+import java.util.Set;
 
 @Entity
-
 public class ShoppingCart {
 
     @Id
@@ -15,27 +14,28 @@ public class ShoppingCart {
     @Getter
     private long id;
 
-    @ManyToMany
-    @JoinTable(
-            name = "shopping_cart_product",
-            joinColumns = @JoinColumn(name = "shopping_cart_id"),
-            inverseJoinColumns = @JoinColumn(name = "product_id")
-    )
     @Getter
     @Setter
-    private List<Product> products;
+    private String createdAt;
 
-
-    @OneToOne(mappedBy = "shoppingCart")
     @Getter
     @Setter
-    private User user;
+    private String status;
 
-    public ShoppingCart(List<Product> products, User user) {
-        this.products = products;
-        this.user = user;
-    }
+    @Getter
+    @Setter
+    @ManyToMany(mappedBy = "carts")
+    private Set<User> user;
+
+    @OneToMany(mappedBy = "shoppingCart")
+    Set<ProductAmount> amount;
+
+
     public ShoppingCart() {
+    }
 
+    public ShoppingCart(String createdAt, String status) {
+        this.createdAt = createdAt;
+        this.status = status;
     }
 }

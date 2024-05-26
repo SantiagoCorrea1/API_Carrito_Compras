@@ -3,6 +3,7 @@ package com.santiago.carrito_compras.Services;
 import com.santiago.carrito_compras.Entities.User;
 import com.santiago.carrito_compras.Interfaces.UserInterface;
 import com.santiago.carrito_compras.Repositories.UserRepository;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -30,5 +31,11 @@ public class UserService implements UserInterface {
     @Override
     public void deleteUser(long id) {
         repository.deleteById(id);
+    }
+
+    public User findUserById(long id) {
+        User user = repository.findById(id).orElse(null);
+        user.setRol(null);
+        return user;
     }
 }
