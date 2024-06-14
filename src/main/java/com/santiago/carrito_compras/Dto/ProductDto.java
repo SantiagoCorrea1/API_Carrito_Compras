@@ -3,7 +3,7 @@ package com.santiago.carrito_compras.Dto;
 import lombok.Data;
 
 @Data
-public class ProductDao {
+public class ProductDto {
 
     private double price;
     private String name;

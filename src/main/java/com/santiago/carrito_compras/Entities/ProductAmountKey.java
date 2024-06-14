@@ -2,12 +2,14 @@ package com.santiago.carrito_compras.Entities;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Embeddable;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 import lombok.Setter;
 
 import java.io.Serializable;
 
 @Embeddable
+@EqualsAndHashCode
 public class ProductAmountKey implements Serializable {
     @Getter
     @Setter

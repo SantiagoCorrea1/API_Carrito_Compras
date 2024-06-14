@@ -1,6 +1,5 @@
 package com.santiago.carrito_compras.Controllers;
 
-import com.fasterxml.jackson.databind.util.JSONPObject;
 import com.santiago.carrito_compras.Dto.AuthenticationRequest;
 import com.santiago.carrito_compras.Dto.SingUpRequestDto;
 import com.santiago.carrito_compras.Dto.UserDto;
@@ -72,8 +71,6 @@ public class AuthenticationController {
 
 
         response.getWriter().write(new JSONObject()
-                //.put("userId", user.getId())
-                //.put("rol", user.getRol())
                 .put("token", jwt)
                 .toString()
         );

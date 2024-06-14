@@ -1,9 +1,9 @@
 package com.santiago.carrito_compras.Services;
 
+import com.santiago.carrito_compras.Dto.UserDtoCarts;
 import com.santiago.carrito_compras.Entities.User;
 import com.santiago.carrito_compras.Interfaces.UserInterface;
 import com.santiago.carrito_compras.Repositories.UserRepository;
-import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -33,9 +33,17 @@ public class UserService implements UserInterface {
         repository.deleteById(id);
     }
 
+    @Override
+    public boolean existById(long id) {
+        return repository.existsById(id);
+    }
+
     public User findUserById(long id) {
         User user = repository.findById(id).orElse(null);
-        user.setRol(null);
         return user;
+    }
+
+    public UserDtoCarts getUserInfo(long id){
+        return repository.findById(id).get().getDtoCarts();
     }
 }

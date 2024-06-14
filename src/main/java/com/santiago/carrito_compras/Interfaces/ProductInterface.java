@@ -1,18 +1,21 @@
 package com.santiago.carrito_compras.Interfaces;
 
-import com.santiago.carrito_compras.Dto.ProductDao;
+import com.santiago.carrito_compras.Dto.ProductDto;
 import com.santiago.carrito_compras.Entities.Product;
 
 import java.util.List;
 
 public interface ProductInterface{
-    Product createProduct(ProductDao product);
-    Product updateProductById(ProductDao product, long id);
+    Product createProduct(ProductDto product);
+    Product updateProductById(ProductDto product, long id);
     void deleteProductById(long id);
-    List<Product> searchAllProducts();
+    List<ProductDto> searchAllProducts();
 
     Product findProductById(long id);
 
+    boolean existById(long id);
+
+    ProductDto findProductInfoById(long id);
 
 
 }

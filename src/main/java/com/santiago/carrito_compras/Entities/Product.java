@@ -1,6 +1,7 @@
 package com.santiago.carrito_compras.Entities;
 
 
+import com.santiago.carrito_compras.Dto.ProductDto;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;
@@ -32,6 +33,8 @@ public class Product {
     @Setter
     private boolean available;
 
+    @Getter
+    @Setter
     @OneToMany(mappedBy = "product")
     Set<ProductAmount> amount;
 
@@ -45,5 +48,15 @@ public class Product {
         this.img = img;
         this.availableAmount = availableAmount;
         this.available = available;
+    }
+    public ProductDto getDto(){
+        ProductDto dto= new ProductDto();
+        dto.setDescription(description);
+        dto.setPrice(price);
+        dto.setImg(img);
+        dto.setName(name);
+        dto.setAvailable(available);
+        dto.setAvailableAmount(availableAmount);
+        return dto;
     }
 }

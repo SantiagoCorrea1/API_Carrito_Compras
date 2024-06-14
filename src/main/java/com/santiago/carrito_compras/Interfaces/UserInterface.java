@@ -9,4 +9,6 @@ public interface UserInterface {
 
     void deleteUser(long id);
 
+    boolean existById(long id);
+
 }

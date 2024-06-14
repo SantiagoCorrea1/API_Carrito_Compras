@@ -1,12 +1,13 @@
 package com.santiago.carrito_compras.Services;
 
-import com.santiago.carrito_compras.Dto.ProductDao;
+import com.santiago.carrito_compras.Dto.ProductDto;
 import com.santiago.carrito_compras.Entities.Product;
 import com.santiago.carrito_compras.Interfaces.ProductInterface;
 import com.santiago.carrito_compras.Repositories.ProductRepository;
 import org.hibernate.ObjectNotFoundException;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 
 @Service
@@ -19,7 +20,7 @@ public class ProductService implements ProductInterface {
     }
 
     @Override
-    public Product createProduct(ProductDao dao) {
+    public Product createProduct(ProductDto dao) {
         Product productNew = new Product();
         productNew.setName(dao.getName());
         productNew.setDescription(dao.getDescription());
@@ -31,7 +32,7 @@ public class ProductService implements ProductInterface {
     }
 
     @Override
-    public Product updateProductById(ProductDao dao, long id) {
+    public Product updateProductById(ProductDto dao, long id) {
         if (repository.existsById(id)){
             Product product = repository.findById(id)
                     .orElseThrow(() -> new  ObjectNotFoundException("product not found", id));
@@ -53,12 +54,26 @@ public class ProductService implements ProductInterface {
     }
 
     @Override
-    public List<Product> searchAllProducts() {
-        return repository.findAll();
+    public List<ProductDto> searchAllProducts() {
+        List<Product> products = repository.findAll();
+        List<ProductDto> productDtos = new ArrayList<>();
+        for (Product product: products) {
+            productDtos.add(product.getDto());
+        }
+        return productDtos;
     }
 
     @Override
+    public ProductDto findProductInfoById(long id) {
+        return repository.findById(id).get().getDto();
+    }
+    @Override
     public Product findProductById(long id) {
-        return repository.findById(id).orElse(null);
+        return repository.findById(id).orElseThrow(null);
+    }
+
+    @Override
+    public boolean existById(long id) {
+        return repository.existsById(id);
     }
 }
