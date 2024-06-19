@@ -66,11 +66,6 @@ public class ShoppingCartService implements ShoppingCartInterface {
         return productAmountService.createProductAmount(cartId,proId,amount);
     }
 
-    @Override
-    public ShoppingCart deleProduct(ShoppingCart shoppingCart, Product product) {
-
-        return null;
-    }
 
     @Override
     public ShoppingCart findById(long id) {

@@ -13,13 +13,13 @@ import java.io.Serializable;
 public class ProductAmountKey implements Serializable {
     @Getter
     @Setter
-    @Column(name = "shoppingCart_id")
-    Long shoppingCartId;
+    @Column(name = "shopping_cart_id")
+    private Long shoppingCartId;
 
     @Getter
     @Setter
     @Column(name = "product_id")
-    Long productId;
+    private Long productId;
 
     public ProductAmountKey(Long shoppingCartId, Long productId) {
         this.shoppingCartId = shoppingCartId;
@@ -27,4 +27,5 @@ public class ProductAmountKey implements Serializable {
     }
     public ProductAmountKey() {
     }
+
 }

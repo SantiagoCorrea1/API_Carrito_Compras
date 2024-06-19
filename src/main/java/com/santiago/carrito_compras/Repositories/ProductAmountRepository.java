@@ -6,4 +6,7 @@ import org.springframework.stereotype.Repository;
 
 @Repository
 public interface ProductAmountRepository extends JpaRepository<ProductAmount, Long> {
+
+    ProductAmount findByProductIdAndShoppingCartId(Long productId, Long shoppingCartId);
+    Boolean existsProductAmountByProductIdAndShoppingCartId(Long productId, Long shoppingCartId);
 }

@@ -10,6 +10,8 @@ import com.santiago.carrito_compras.Repositories.ProductRepository;
 import com.santiago.carrito_compras.Repositories.ShoppingCartRepository;
 import org.springframework.stereotype.Service;
 
+import java.util.Set;
+
 @Service
 public class ProductAmountService implements ProductAmountInterface {
     private final ProductAmountRepository productAmountRepository;
@@ -43,6 +45,33 @@ public class ProductAmountService implements ProductAmountInterface {
         productAmount.setAmount(amount);
 
         // Persistir la nueva relación
+        return productAmountRepository.save(productAmount);
+    }
+
+    @Override
+    public void deleteProductAmount(long cartId, long proId, int deleteAmount) {
+        ProductAmount productAmount = productAmountRepository.findByProductIdAndShoppingCartId(proId, cartId);
+        if (productAmount.getAmount() == deleteAmount){
+            productAmountRepository.delete(productAmount);
+        } else {
+            productAmount.setAmount(productAmount.getAmount() - deleteAmount);
+            productAmountRepository.save(productAmount);
+        }
+    }
+    @Override
+    public ProductAmount getProductAmount(Long productId, Long shoppingCartId) {
+        return productAmountRepository.findByProductIdAndShoppingCartId(productId, shoppingCartId);
+    }
+
+    @Override
+    public boolean existProductAmount(Long productId, Long shoppingCartId) {
+        return productAmountRepository.existsProductAmountByProductIdAndShoppingCartId(productId, shoppingCartId);
+    }
+
+    @Override
+    public ProductAmount updateProductAmount(long cartId, long productId, int amount) {
+        ProductAmount productAmount = getProductAmount(productId, cartId);
+        productAmount.setAmount(productAmount.getAmount() + amount);
         return productAmountRepository.save(productAmount);
     }
 }

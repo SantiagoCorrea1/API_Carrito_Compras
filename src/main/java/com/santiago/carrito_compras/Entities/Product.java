@@ -33,8 +33,7 @@ public class Product {
     @Setter
     private boolean available;
 
-    @Getter
-    @Setter
+
     @OneToMany(mappedBy = "product")
     Set<ProductAmount> amount;
 

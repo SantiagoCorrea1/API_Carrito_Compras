@@ -12,25 +12,34 @@ public class ProductAmount implements Serializable {
     @Getter
     @Setter
     @EmbeddedId
-    ProductAmountKey id;
+    private ProductAmountKey id;
 
     @Getter
     @Setter
     @ManyToOne
     @MapsId("shoppingCartId")
-    @JoinColumn(name = "shoppingCart_id")
-    ShoppingCart shoppingCart;
+    @JoinColumn(name = "shopping_cart_id")
+    private ShoppingCart shoppingCart;
 
     @Getter
     @Setter
     @ManyToOne
     @MapsId("productId")
     @JoinColumn(name = "product_id")
-    Product product;
+    private Product product;
 
     @Getter
     @Setter
-    int amount;
+    private int amount;
+
+    public ProductAmount() {
+    }
+    public ProductAmount(ProductAmountKey id, ShoppingCart shoppingCart, Product product, int amount) {
+        this.id = id;
+        this.shoppingCart = shoppingCart;
+        this.product = product;
+        this.amount = amount;
+    }
 
     public ProductAmountDto getDto(){
         ProductAmountDto dto = new ProductAmountDto();

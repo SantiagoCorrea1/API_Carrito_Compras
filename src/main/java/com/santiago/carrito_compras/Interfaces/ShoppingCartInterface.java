@@ -15,7 +15,6 @@ public interface ShoppingCartInterface{
 
     ProductAmount addProduct(long cartId, long proId, int amount);
 
-    ShoppingCart deleProduct(ShoppingCart shoppingCart, Product product);
 
     ShoppingCart findById(long id);
 

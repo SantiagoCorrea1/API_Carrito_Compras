@@ -29,7 +29,7 @@ public class UserController {
         return new ResponseEntity<>(userService.getUserInfo(id), HttpStatus.OK);
     }
 
-    @PostMapping("/user-{userId}/cart")
+    @PostMapping("/user-{userId}/create-cart")
     public ResponseEntity<?> createCart(@PathVariable long userId){
         if (!userService.existById(userId)){
             return new ResponseEntity<>("User not found by id" + userId, HttpStatus.NOT_FOUND);
