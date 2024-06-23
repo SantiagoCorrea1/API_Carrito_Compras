@@ -1,6 +1,5 @@
 package com.santiago.carrito_compras.Controllers;
 
-import com.santiago.carrito_compras.Dto.UserDtoCarts;
 import com.santiago.carrito_compras.Services.ShoppingCartService;
 import com.santiago.carrito_compras.Services.UserService;
 import org.springframework.http.HttpStatus;
@@ -21,30 +20,30 @@ public class UserController {
         this.shoppingCartService = shoppingCartService;
     }
 
-    @PostMapping("/user/{id}")
-    public ResponseEntity<?> getUserById(@PathVariable long id){
-        if (!userService.existById(id)){
-            return new ResponseEntity<>("User not found by id" + id, HttpStatus.NOT_FOUND);
-        }
-        return new ResponseEntity<>(userService.getUserInfo(id), HttpStatus.OK);
-    }
+//    @PostMapping("/user")
+//    public ResponseEntity<?> getUserById(@PathVariable long id){
+//        if (!userService.existById(id)){
+//            return new ResponseEntity<>("User not found by id" + id, HttpStatus.NOT_FOUND);
+//        }
+//        return new ResponseEntity<>(userService.getUserInfo(id), HttpStatus.OK);
+//    }
 
-    @PostMapping("/user-{userId}/create-cart")
-    public ResponseEntity<?> createCart(@PathVariable long userId){
-        if (!userService.existById(userId)){
-            return new ResponseEntity<>("User not found by id" + userId, HttpStatus.NOT_FOUND);
-        }
+
+
+    @PostMapping("/user/create-cart")
+    public ResponseEntity<?> createCart(){
+        String username = userService.getUserId();
+        long userId = userService.findUserByEmail(username);
         return  new ResponseEntity<>(shoppingCartService.createShoppingCart(userId), HttpStatus.OK);
     }
 
-    @PostMapping("/user-{userId}/delete-cart-{cartId}")
-    public ResponseEntity<?> deleteCart(@PathVariable long userId, @PathVariable long cartId){
-        if (!userService.existById(userId)){
-            return new ResponseEntity<>("User not found by id " + userId, HttpStatus.NOT_FOUND);
-        }
+    @PostMapping("/user/delete-cart-{cartId}")
+    public ResponseEntity<?> deleteCart(@PathVariable long cartId){
         if (!shoppingCartService.existById(cartId)){
             return new ResponseEntity<>("Cart not found by id " + cartId, HttpStatus.NOT_FOUND);
         }
+        String username = userService.getUserId();
+        long userId = userService.findUserByEmail(username);
         shoppingCartService.deleteShoppingCart(cartId, userId);
         return  new ResponseEntity<>("Cart deleted correctly", HttpStatus.OK);
     }

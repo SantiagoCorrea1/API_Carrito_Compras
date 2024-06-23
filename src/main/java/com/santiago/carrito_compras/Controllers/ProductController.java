@@ -3,6 +3,7 @@ package com.santiago.carrito_compras.Controllers;
 import com.santiago.carrito_compras.Dto.ProductDto;
 import com.santiago.carrito_compras.Entities.Product;
 import com.santiago.carrito_compras.Services.ProductService;
+import com.santiago.carrito_compras.Services.UserService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -13,9 +14,11 @@ import java.util.List;
 public class ProductController {
 
     private final ProductService service;
+    private final UserService userService;
 
-    public ProductController(ProductService service) {
+    public ProductController(ProductService service, UserService userService) {
         this.service = service;
+        this.userService = userService;
     }
 
     @GetMapping("/products")
@@ -31,25 +34,38 @@ public class ProductController {
         return new ResponseEntity<>(service.findProductInfoById(id), HttpStatus.OK);
     }
 
-    @PostMapping ("/products/update/{id}")
+    @PostMapping ("/admin/products/update/{id}")
     public ResponseEntity<?> updateProduct(@PathVariable Long id, @RequestBody ProductDto updatedProduct) {
         if (!service.existById(id)){
             return new ResponseEntity<>("Product not found by id " + id, HttpStatus.NOT_FOUND);
         }
-        Product product = service.updateProductById(updatedProduct, id);
-        return new ResponseEntity<>(product, HttpStatus.OK);
+        String username = userService.getUserId();
+        if(userService.isAdmin(userService.findUserByEmail(username))){
+            Product product = service.updateProductById(updatedProduct, id);
+            return new ResponseEntity<>(product, HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Forbidden", HttpStatus.NOT_ACCEPTABLE);
+
     }
-    @PostMapping("/products/delete/{id}")
+    @PostMapping("/admin/products/delete/{id}")
     public ResponseEntity<?> deleteProduct(@PathVariable long id){
         if (!service.existById(id)){
             return new ResponseEntity<>("Product not found by id " + id, HttpStatus.NOT_FOUND);
         }
-        service.deleteProductById(id);
-        return new ResponseEntity<>("Product deleted", HttpStatus.OK);
+        String username = userService.getUserId();
+        if(userService.isAdmin(userService.findUserByEmail(username))){
+            service.deleteProductById(id);
+            return new ResponseEntity<>("Product deleted", HttpStatus.OK);
+        }
+        return new ResponseEntity<>("Forbidden", HttpStatus.NOT_ACCEPTABLE);
     }
 
-    @PostMapping("/products/create")
+    @PostMapping("/admin/products/create")
     public ResponseEntity<?> createProduct(@RequestBody ProductDto productDao){
-        return new ResponseEntity<>(service.createProduct(productDao), HttpStatus.CREATED);
+        String username = userService.getUserId();
+        if(userService.isAdmin(userService.findUserByEmail(username))){
+            return new ResponseEntity<>(service.createProduct(productDao), HttpStatus.CREATED);
+        }
+        return new ResponseEntity<>("Forbidden", HttpStatus.NOT_ACCEPTABLE);
     }
 }

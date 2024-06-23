@@ -4,6 +4,9 @@ import com.santiago.carrito_compras.Dto.UserDtoCarts;
 import com.santiago.carrito_compras.Entities.User;
 import com.santiago.carrito_compras.Interfaces.UserInterface;
 import com.santiago.carrito_compras.Repositories.UserRepository;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Service;
 
 @Service
@@ -45,5 +48,29 @@ public class UserService implements UserInterface {
 
     public UserDtoCarts getUserInfo(long id){
         return repository.findById(id).get().getDtoCarts();
+    }
+
+    public long findUserByEmail(String email){
+        User user = repository.findFirstByEmail(email);
+        return user.getId();
+    }
+
+    public String getUserId(){
+        Authentication auth = SecurityContextHolder.getContext().getAuthentication();
+
+        if (auth.getPrincipal() instanceof UserDetails) {
+            UserDetails userDetails = (UserDetails) auth.getPrincipal();
+            return userDetails.getUsername();
+        } else {
+            return auth.getPrincipal().toString();
+        }
+    }
+
+    public boolean isAdmin(long id){
+        long rol = findUserById(id).getRol().getId();
+        if (rol == 1){
+            return true;
+        }
+        return false;
     }
 }

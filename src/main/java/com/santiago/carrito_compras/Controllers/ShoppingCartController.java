@@ -25,13 +25,10 @@ public class ShoppingCartController {
         this.productAmountService = productAmountService;
     }
 
-    @PostMapping("user-{userId}/cart-{cartId}/add-product-{proId}-{amount}")
+    @PostMapping("user/cart-{cartId}/add-product-{proId}-{amount}")
     public ResponseEntity<?> addProductToCart(@PathVariable long cartId, @PathVariable long proId,
-                                              @PathVariable long userId, @PathVariable int amount){
+                                              @PathVariable int amount){
 
-        if (!userService.existById(userId)){
-            return new ResponseEntity<>("User not found by id " + userId, HttpStatus.NOT_FOUND);
-        }
         if (productAmountService.existProductAmount(proId, cartId)){
             productAmountService.updateProductAmount(cartId, proId, amount);
             return new ResponseEntity<>("The amount was updated", HttpStatus.OK);
@@ -46,17 +43,14 @@ public class ShoppingCartController {
         return new ResponseEntity<>("Product added to cart", HttpStatus.CREATED);
     }
 
-    @PostMapping("user-{userId}/cart-{cartId}/delete-product-{proId}-{amount}")
+    @PostMapping("user/cart-{cartId}/delete-product-{proId}-{amount}")
     public ResponseEntity<?> deleteProductFromCart(@PathVariable long cartId, @PathVariable long proId,
-                                                   @PathVariable long userId, @PathVariable int amount){
+                                                   @PathVariable int amount){
         if (!productService.existById(proId)) {
             return new ResponseEntity<>("Product not found by id " + proId, HttpStatus.NOT_FOUND);
         }
         if (!shoppingCartService.existById(cartId)){
             return new ResponseEntity<>("Cart not found by id " + cartId, HttpStatus.NOT_FOUND);
-        }
-        if (!userService.existById(userId)){
-            return new ResponseEntity<>("User not found by id " + userId, HttpStatus.NOT_FOUND);
         }
         productAmountService.deleteProductAmount(proId, cartId, amount);
         return new ResponseEntity<>("Product deleted form cart", HttpStatus.OK);

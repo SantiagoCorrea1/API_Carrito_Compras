@@ -44,7 +44,7 @@ public class AuthenticationController {
     }
 
 
-    @PostMapping("/user/sing-up")
+    @PostMapping("/sing-up")
     public ResponseEntity<?> singUpUser(@RequestBody SingUpRequestDto singUpRequestDto){
         if(authService.presentByEmail(singUpRequestDto.getEmail())){
             return new ResponseEntity<>("User already exits with this email", HttpStatus.NOT_ACCEPTABLE);

@@ -1,7 +1,6 @@
 package com.santiago.carrito_compras.Interfaces;
 
 import com.santiago.carrito_compras.Dto.ShoppingCartDto;
-import com.santiago.carrito_compras.Entities.Product;
 import com.santiago.carrito_compras.Entities.ProductAmount;
 import com.santiago.carrito_compras.Entities.ShoppingCart;
 

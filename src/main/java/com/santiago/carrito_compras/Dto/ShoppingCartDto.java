@@ -2,7 +2,6 @@ package com.santiago.carrito_compras.Dto;
 
 import lombok.Data;
 
-import java.util.Set;
 
 @Data
 public class ShoppingCartDto {
@@ -15,6 +14,5 @@ public class ShoppingCartDto {
 
     private long userId;
 
-    //Set<ProductAmount> amount;
 
 }
